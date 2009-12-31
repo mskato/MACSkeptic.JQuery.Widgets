@@ -1,4 +1,6 @@
-﻿String.prototype.supplant = function (o) { 
+﻿"use strict";
+
+String.prototype.supplant = function (o) { 
     return this.replace(/\{([^{}]*)\}/g, 
         function (a, b) {  
             var r = o[b];
@@ -16,14 +18,14 @@ var MACSkeptic = {
                 for (var name in o) {
                     if (o.hasOwnProperty(name)) {
                         var currentProperty = o[name];
-                        result[name.charAt(0).toLowerCase() + name.substring(1)] = (typeof(currentProperty) == 'object'?
+                        result[name.charAt(0).toLowerCase() + name.substring(1)] = (typeof(currentProperty) === 'object'?
                             MACSkeptic.helpers.lowerize(currentProperty) : currentProperty);
                     }
                 }
                 return result;
             }
         };
-    })(),
+    }()),
     widgets: (function (callbackParameters) {
         var defaultAjaxWidgetTemplate = [
     '<div class="ajax_widget" id="{id}">',
@@ -123,18 +125,18 @@ var MACSkeptic = {
                         this.alert(duplicatedIdError);
                         throw duplicatedIdError;
                     }
-                })(widgetPrototype);
+                }(widgetPrototype));
                 
                 (function setupDefaults(widgetToSetup) {
                     widgetToSetup.parentContainer = widgetToSetup.parentContainer || "div#left_column";
                     widgetToSetup.title = widgetToSetup.title || widgetToSetup.id;
                     widgetToSetup.baseUri = widgetToSetup.baseUri || "Widgets/"; 
                     widgetToSetup.fullUri = widgetToSetup.fullUri;
-                    widgetToSetup.resource = widgetToSetup.resource || { name: widgetToSetup.id, id: undefined }
+                    widgetToSetup.resource = widgetToSetup.resource || { name: widgetToSetup.id, id: undefined };
                     widgetToSetup.contentSelector = widgetToSetup.contentSelector || "div#{id} fieldset div.ajax_widget_content".
                         supplant( { id : widgetToSetup.id } );
                     widgetToSetup.selectorForLoading = '#{id} fieldset span.loading'.supplant({ id : widgetToSetup.id });
-                })(widgetPrototype);
+                }(widgetPrototype));
                 
                 (function definePublicMethods(widgetObject) {
                     widgetObject.composeUri = function () {
@@ -147,10 +149,11 @@ var MACSkeptic = {
                             callbacks.widgetStartedLoading(widgetObject);
                         }
                         if (callbacks.widgetFinishedLoading) {
-                            $(widgetObject.contentSelector).load(widgetObject.composeUri(), 
+                            $(widgetObject.contentSelector).load(
+                                widgetObject.composeUri(), 
                                 '', 
-                                (function (responseText, textStatus, req) {
-                                    var successfulRequest = textStatus != 'error';
+                                function (responseText, textStatus, req) {
+                                    var successfulRequest = textStatus !== 'error';
                                     if (!successfulRequest) {
                                         $(widgetObject.contentSelector).html(
                                             defaultAjaxWidgetErrorMessageTemplate.supplant({
@@ -160,7 +163,7 @@ var MACSkeptic = {
                                         );
                                     }
                                     callbacks.widgetFinishedLoading(widgetObject, successfulRequest);
-                                })
+                                }
                             );
                         }
                         else {
@@ -190,19 +193,19 @@ var MACSkeptic = {
                             addClass('invisible_loading').
                             removeClass('visible_loading');
                     };
-                })(widgetPrototype);
+                }(widgetPrototype));
                 
                 return store(widgetPrototype);
             }
         };
-    })({
-        widgetFinishedLoading: (function (widget, success) { 
+    }({
+        widgetFinishedLoading: function (widget, success) { 
             widget.markAsFinishedLoading();
             widget.highlight(1000,  success ? { color : '#ffff99' } : { color : '#ff0000' } );
-        }),
-        widgetStartedLoading: (function (widget) {
+        },
+        widgetStartedLoading: function (widget) {
             widget.markAsLoading();
-        })
-    })
+        }
+    }))
 };
 
