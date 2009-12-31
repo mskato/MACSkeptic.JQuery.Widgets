@@ -1,0 +1,204 @@
+﻿body, *
+{
+	padding: 0;
+	margin: 0;
+	border: none 0 #000000;
+	text-align: left;
+	font-family: Calibri, Consolas, Verdana, Arial;
+}
+
+body
+{
+	background-color: #f3f3f3;
+}
+
+ul
+{
+    margin-left: 5px;
+    padding: 3px;
+}
+
+ul li
+{
+    margin-left: 15px;
+}
+
+div#widget_global_container
+{
+	width: 1100px;
+	text-align: center;
+	margin: 2px auto 2px auto;
+	text-align: center;
+	/* border: dashed 2px #000000; */
+	border: none 0px #000000;
+}
+
+div.widget_container
+{
+	border: dashed 1px #000000;
+	width: 350px;
+	height: 100%;
+	margin: 5px 0px 5px 5px;
+	padding: 2px 2px 2px 2px;
+	text-align: left;
+	display: inline-block;
+	min-height: 800px;
+	background-color: #ffffff;
+}
+
+div#left_column
+{
+	border-color: #FF0000;
+}
+
+div#middle_column
+{
+	border-color: #00FF00;
+}
+
+div#right_column
+{
+	border-color: #0000FF;
+}
+
+div.ajax_widget
+{
+	float: left;
+	width: 98%;
+	border: solid 1px #91BCDE;
+	margin: 5px auto 5px auto;
+	/* offset left, top, thickness, color with alpha */
+    -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    /* IE */
+    /* filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=5, OffY=5, Color='gray'); */
+    /* slightly different syntax for IE8 */
+    /* -ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=5, OffY=5, Color='gray')"; */
+    -moz-border-radius: 8px 8px 0 0;
+	-webkit-border-top-left-radius: 8px;
+	-webkit-border-top-right-radius: 8px;
+	border-radius: 8px 8px 0 0;
+	display: block;
+}
+
+div.ajax_widget fieldset
+{
+	float: left;
+	padding: 0px;
+	width: 100%;
+	display: block;
+}
+
+div.ajax_widget span.legend
+{
+	display: block;
+	background-color: #91BCDE;
+	color: #FFFFFF;
+	margin-top: 0px;
+	font-size: large;
+	font-weight: bold;
+	padding: 3px;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ABCDEF,endColorstr=#89ABCD)";
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ABCDEF), to(#89ABCD));
+    -moz-border-radius: 8px 8px 0 0;
+	-webkit-border-top-left-radius: 8px;
+	-webkit-border-top-right-radius: 8px;
+	border-radius: 8px 8px 0 0;
+}
+
+div.ajax_widget span.loading
+{
+	clear: left;
+	background-position: center;
+	background-image: url(../images/ajax-loader.gif);
+	background-repeat: no-repeat;
+	display: block;
+	padding: 1px;
+	border: none 0 #FFFFFF;
+	text-align: center;
+}
+
+div.ajax_widget_content
+{
+    margin-left: 6px;
+    width: 100%;
+    padding: 5px;
+}
+
+button.ajax_widget_refresh
+{
+	float: right;
+	position: relative;
+	top: -23px;
+	right: 10px;
+	background-color: #234567;
+	color: white;
+	font-size: small;
+	font-weight: bold;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#123456,endColorstr=#6789AB)";
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#6789AB), to(#123456));
+	border-radius: 6px;
+	padding: 1px 3px 1px 3px;
+}
+
+button.ajax_widget_refresh:active
+{
+	background-color: #6789AB;
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#6789AB,endColorstr=#123456)";
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#123456), to(#6789AB));
+}
+
+.visible_loading
+{
+	visibility: visible;
+	height: 22px;
+}
+
+.invisible_loading
+{
+	visibility: hidden;
+	height: 0px;
+}
+
+.ui-sortable-placeholder
+{ 
+	border: 1px dotted black; 
+	visibility: visible !important; 
+	height: 50px !important; 
+}
+
+.ui-sortable-placeholder * 
+{ 
+	visibility: hidden; 
+}
+
+button.just_to_show_some_awesomeness
+{
+	width: 100%;
+	display: block;
+	font-size: larger;
+	font-weight: bold;
+	text-align: center;
+	margin: 10px 0px 10px 0px;
+	padding: 5px;
+	background-color: #ED1221;
+	color: #FFFFFF;
+	border: solid 3px #aaaaaa;
+	border-top-color: #dddddd;
+	border-left-color: #dddddd;
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+}
+
+button.just_to_show_some_awesomeness:active
+{
+	background-color: #9D1221;
+	border-bottom-color: #dddddd;
+	border-right-color: #dddddd;
+	border-top-color: #aaaaaa;
+	border-left-color: #aaaaaa;
+}
