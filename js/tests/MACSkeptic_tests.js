@@ -31,6 +31,36 @@ MACSkeptic.widgets.tests = function () {
             ok(typeof(MACSkeptic.widgets.get) === 'function', 'get');
             ok(typeof(MACSkeptic.widgets.create) === 'function', 'create');
         });
+        
+    (function toJson() {
+        module('MACSkeptic.widgets.toJson');
+        
+        test("It should be defined", function () {        
+            ok(typeof(MACSkeptic.widgets.toJson) === 'function', 'toJson');
+        });
+        
+        test("It should return the json representation of a widget", function () {
+            MACSkeptic.widgets.create({
+                id: 'lumberWidget', 
+                resource: { name: 'wood', id: 'oak' }, 
+                parentContainer: 'div#left_column', 
+                baseUri: 'http://mywidgets.com/',
+                fullUri: 'http://my.widget.is.here.org/',
+                title: 'Woodstock'
+            });
+            
+            var jsonifiedWidget = eval('(' + MACSkeptic.widgets.toJson('lumberWidget') + ')');
+            ok(jsonifiedWidget, 'lumberWidget');
+            ok(jsonifiedWidget.id === 'lumberWidget', 'lumberWidget.id');
+            ok(jsonifiedWidget.resource, 'lumberWidget.resource');
+            ok(jsonifiedWidget.resource.name === 'wood', 'lumberWidget.resource.name');
+            ok(jsonifiedWidget.resource.id === 'oak', 'hungerWidget.resource.id');
+            ok(jsonifiedWidget.parentContainer === 'div#left_column', 'lumberWidget.parentContainer');
+            ok(jsonifiedWidget.baseUri === 'http://mywidgets.com/', 'lumberWidget.baseUri');
+            ok(jsonifiedWidget.fullUri === 'http://my.widget.is.here.org/', 'thunderWidget.fullUri');
+            ok(jsonifiedWidget.title === 'Woodstock', 'thunderWidget.title');
+        });
+    }());
     
     (function fromJson() {
         module('MACSkeptic.widgets.fromJson');
@@ -39,37 +69,7 @@ MACSkeptic.widgets.tests = function () {
             ok(typeof(MACSkeptic.widgets.fromJson) === 'function', 'fromJson');
         });
         
-        (function toJson() {
-            module('MACSkeptic.widgets.toJson');
-            
-            test("It should be defined", function () {        
-                ok(typeof(MACSkeptic.widgets.toJson) === 'function', 'toJson');
-            });
-            
-            test("It should return the json representation of a widget", function () {
-                MACSkeptic.widgets.create({
-                    id: 'lumberWidget', 
-                    resource: { name: 'wood', id: 'oak' }, 
-                    parentContainer: 'div#left_column', 
-                    baseUri: 'http://mywidgets.com/',
-                    fullUri: 'http://my.widget.is.here.org/',
-                    title: 'Woodstock'
-                });
-                
-                var jsonifiedWidget = eval('(' + MACSkeptic.widgets.toJson('lumberWidget') + ')');
-                ok(jsonifiedWidget, 'lumberWidget');
-                ok(jsonifiedWidget.id === 'lumberWidget', 'lumberWidget.id');
-                ok(jsonifiedWidget.resource, 'lumberWidget.resource');
-                ok(jsonifiedWidget.resource.name === 'wood', 'lumberWidget.resource.name');
-                ok(jsonifiedWidget.resource.id === 'oak', 'hungerWidget.resource.id');
-                ok(jsonifiedWidget.parentContainer === 'div#left_column', 'lumberWidget.parentContainer');
-                ok(jsonifiedWidget.baseUri === 'http://mywidgets.com/', 'lumberWidget.baseUri');
-                ok(jsonifiedWidget.fullUri === 'http://my.widget.is.here.org/', 'thunderWidget.fullUri');
-                ok(jsonifiedWidget.title === 'Woodstock', 'thunderWidget.title');
-            });
-        }());
-        
-        test("It should create the widgets based on the json parameters", function () {
+        test("It should create the widgets based on the (parsed) json parameters", function () {
             var testData = {
                 widgets: [
                     {
@@ -91,6 +91,64 @@ MACSkeptic.widgets.tests = function () {
                     }
                 ]
             };
+            
+            var createdWidgets = MACSkeptic.widgets.fromJson(testData);
+            
+            ok(createdWidgets, 'return the created widgets');
+            ok(createdWidgets.length === 3, 'correct number of widgets');
+            
+            (function assertThatLumberWidgetWasCreatedAsExpected() {
+                ok(createdWidgets[0], 'lumberWidget');
+                ok(createdWidgets[0].id === 'lumberWidget', 'lumberWidget.id');
+                ok(createdWidgets[0].resource, 'lumberWidget.resource');
+                ok(createdWidgets[0].resource.name === 'wood', 'lumberWidget.resource.name');
+                ok(createdWidgets[0].parentContainer === 'div#left_column', 'lumberWidget.parentContainer');
+                ok(createdWidgets[0].baseUri === 'http://mywidgets.com/', 'lumberWidget.baseUri');
+            }());
+            (function assertThatHungerWidgetWasCreatedAsExpected() {
+                ok(createdWidgets[1], 'hungerWidget');
+                ok(createdWidgets[1].id === 'hungerWidget', 'hungerWidget.id');
+                ok(createdWidgets[1].resource, 'hungerWidget.resource');
+                ok(createdWidgets[1].resource.name === 'food', 'hungerWidget.resource.name');
+                ok(createdWidgets[1].resource.id === 'pizza', 'hungerWidget.resource.id');
+                ok(createdWidgets[1].parentContainer === 'div#right_column', 'hungerWidget.parentContainer');
+                ok(createdWidgets[1].title === 'Pasta', 'hungerWidget.title');
+            }());
+            (function assertThatFullWidgetWasCreatedAsExpected() {
+                ok(createdWidgets[2], 'thunderWidget');
+                ok(createdWidgets[2].id === 'thunderWidget', 'thunderWidget.id');
+                ok(createdWidgets[2].parentContainer === 'div#middle_column', 'thunderWidget.parentContainer');
+                ok(createdWidgets[2].fullUri === 'http://my.widget.is.here.org/', 'thunderWidget.fullUri');
+            }());
+            (function assertThatAllWidgetsWereAddedToTheMACSkepticObject() {
+                ok(MACSkeptic.widgets.get('lumberWidget'), 'get(lumberWidget)');
+                ok(MACSkeptic.widgets.get('hungerWidget'), 'get(hungerWidget)');
+                ok(MACSkeptic.widgets.get('thunderWidget'), 'get(thunderWidget)');
+            }());
+        });
+        
+        test("It should create the widgets based on the (string) json parameters", function () {
+            var testData = [
+                '{',
+                'widgets: [',
+                '{',
+                'id: "lumberWidget", ',
+                'resource: { name: "wood" }, ',
+                'parentContainer: "div#left_column", ',
+                'BaseUri: "http://mywidgets.com/"',
+                '},',
+                '{',
+                'Id: "hungerWidget", ',
+                'Resource: { name: "food", Id: "pizza" }, ',
+                'ParentContainer: "div#right_column", ',
+                'title: "Pasta" ',
+                '},',
+                '{',
+                'Id: "thunderWidget", ',
+                'ParentContainer: "div#middle_column", ',
+                'fullUri: "http://my.widget.is.here.org/" ',
+                '}]}'
+            ].join('');
             
             var createdWidgets = MACSkeptic.widgets.fromJson(testData);
             
@@ -200,6 +258,10 @@ MACSkeptic.widgets.tests = function () {
                     id: 'thunderWidget', 
                     parentContainer: 'div#middle_column', 
                     fullUri: 'http://my.widget.is.here.org/' 
+                });
+                MACSkeptic.widgets.create({
+                    id: 'dummyWidget', 
+                    parentContainer: 'div#middle_column'
                 });
                 
                 MACSkeptic.widgets.all.toJson();

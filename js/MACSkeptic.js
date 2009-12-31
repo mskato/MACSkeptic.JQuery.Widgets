@@ -87,10 +87,11 @@ var MACSkeptic = {
                 return this.load(id);
             },
             fromJson: function createAjaxWidgetBasedOnJason(data) {
+                var parsedData = typeof(data) === 'string' ? $.parseJSON(data) : data;
                 var createdWidgets = [];
-                for (var i = 0; i < data.widgets.length; i++)
+                for (var i = 0; i < parsedData.widgets.length; i++)
                 {
-                    var lowerizedData = MACSkeptic.helpers.lowerize(data.widgets[i]);
+                    var lowerizedData = MACSkeptic.helpers.lowerize(parsedData.widgets[i]);
                     createdWidgets.push(MACSkeptic.widgets.create(lowerizedData));
                 }
                 return createdWidgets;
