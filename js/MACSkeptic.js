@@ -10,20 +10,33 @@ String.prototype.supplant = function (o) {
     ); 
 }; 
 
+String.prototype.lowerize = function () {
+    return this.charAt(0).toLowerCase() + this.substring(1);
+};
+
 var MACSkeptic = { 
     helpers: (function () {
-        return {
-            lowerize: function (o) {
-                var result = {};
-                for (var name in o) {
-                    if (o.hasOwnProperty(name)) {
-                        var currentProperty = o[name];
-                        result[name.charAt(0).toLowerCase() + name.substring(1)] = (
-                            typeof(currentProperty) === 'object' ? 
-                            MACSkeptic.helpers.lowerize(currentProperty) : currentProperty);
-                    }
+        function forEach(obj, action)
+        {
+            for (var name in obj) {
+                if (obj.hasOwnProperty(name)) {
+                    action(name, obj[name]);
                 }
-                return result;
+            }
+        }
+        return {
+            lowerize: function (obj) {
+                if (!obj || typeof(obj) !== 'object') {
+                    return obj;
+                }
+                else {
+                    var result = {};
+                    forEach(obj, function (name, property) {
+                        result[name.lowerize()] = 
+                            MACSkeptic.helpers.lowerize(property);
+                    });
+                    return result;
+                }
             }
         };
     }()),
