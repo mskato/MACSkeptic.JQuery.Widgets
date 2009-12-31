@@ -8,26 +8,6 @@
     ); 
 }; 
 
-var MACSkepticHelpers = (function () {
-    return {
-        lowerize: function (o) {
-            var result = {};
-            for (var name in o) {
-                if (o.hasOwnProperty(name)) {
-                    var currentProperty = o[name];
-                    if (typeof(currentProperty) == 'object')
-                    {
-                        currentProperty = MACSkeptic.helpers.lowerize(currentProperty);
-                    }
-                    result[name.charAt(0).toLowerCase() + name.substring(1)] = currentProperty;
-                    
-                }
-            }
-            return result;
-        }
-    };
-})();
-
 var MACSkeptic = { 
     helpers: (function () {
         return {
