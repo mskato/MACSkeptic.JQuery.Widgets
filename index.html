@@ -11,7 +11,7 @@
 </head>  
 <body>  
     <button class="just_to_show_some_awesomeness" 
-        onclick="MACSkepticWidgets.all.reload()">
+        onclick="MACSkeptic.widgets.all.reload()">
         Click here to reload EVERYTHING, this would be EXACTLY like a broadcast event ;)
     </button>
     <div id="widget_global_container">
@@ -23,35 +23,35 @@
         </div>
     </div>
     <script type="text/javascript">
-        MACSkepticWidgets.createAjaxWidget( { 
+        MACSkeptic.widgets.createAjaxWidget( { 
             parentContainer: 'div#right_column', 
             id: 'dateWidget', 
             fullUri: 'widgets/full_uri/dateWidget.html',
             title: 'Today' 
         });
         
-        MACSkepticWidgets.createAjaxWidget( { 
+        MACSkeptic.widgets.createAjaxWidget( { 
             id: 'datePickerWidget', 
             title: 'Date Picker',
             baseUri: 'widgets/base_uri/',
             resource: { name: 'datePickerWidget.html' }
         });
         
-        MACSkepticWidgets.createAjaxWidget( { 
+        MACSkeptic.widgets.createAjaxWidget( { 
             parentContainer: 'div#middle_column', 
             id: 'tabsWidget', 
             title: 'Tabs' ,
             resource: { name: 'tabsWidget.html' }
         });
         
-        MACSkepticWidgets.createAjaxWidget( { 
+        MACSkeptic.widgets.createAjaxWidget( { 
             parentContainer: 'div#middle_column', 
             id: 'idedWidget', 
             title: 'Identified' ,
             resource: { name: 'example', id: '1.html' }
         });
         
-        MACSkepticWidgets.all.render().load().sortable();
+        MACSkeptic.widgets.all.render().load().sortable();
     </script>
 </body>  
 </html>  
