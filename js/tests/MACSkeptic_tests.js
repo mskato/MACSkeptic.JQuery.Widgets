@@ -1,5 +1,9 @@
 ﻿"use strict";
 
+QUnit.reset = function () {
+    MACSkeptic.widgets.all.clear();
+};
+
 MACSkeptic.tests = function () {
     module('MACSkeptic');
     
@@ -19,6 +23,7 @@ MACSkeptic.widgets.tests = function () {
     test("It should be defined", function () {
         ok(MACSkeptic.widgets, 'MACSkeptic.widgets');
     });
+    
     test("It should define the functions: 'load', 'reload', 'get', and 'create'", 
         function () {
             ok(typeof(MACSkeptic.widgets.load) === 'function', 'load');
@@ -26,6 +31,7 @@ MACSkeptic.widgets.tests = function () {
             ok(typeof(MACSkeptic.widgets.get) === 'function', 'get');
             ok(typeof(MACSkeptic.widgets.create) === 'function', 'create');
         });
+    
     (function fromJson() {
         module('MACSkeptic.widgets.fromJson');
         
@@ -92,6 +98,34 @@ MACSkeptic.widgets.tests = function () {
         });
     }());
     
+    (function toJson() {
+        module('MACSkeptic.widgets.toJson');
+        
+        test("It should be defined", function () {        
+            ok(typeof(MACSkeptic.widgets.toJson) === 'function', 'toJson');
+        });
+        
+        test("It should return the json representation of the widgets", function () {
+            MACSkeptic.widgets.create({
+                id: 'lumberWidget', 
+                resource: { name: 'wood' }, 
+                parentContainer: 'div#left_column', 
+                baseUri: 'http://mywidgets.com/' 
+            });
+            MACSkeptic.widgets.create({
+                id: 'hungerWidget', 
+                resource: { name: 'food', Id: 'pizza' }, 
+                parentContainer: 'div#right_column', 
+                title: 'Pasta' 
+            });
+            MACSkeptic.widgets.create({
+                id: 'thunderWidget', 
+                parentContainer: 'div#middle_column', 
+                fullUri: 'http://my.widget.is.here.org/' 
+            });
+        });
+    }());
+    
     (function all() {
         module('MACSkeptic.widgets.all');
     
@@ -105,6 +139,40 @@ MACSkeptic.widgets.tests = function () {
                 ok(typeof(MACSkeptic.widgets.all.render) === 'function', 'render');
                 ok(typeof(MACSkeptic.widgets.all.sortable) === 'function', 'sortable');
             });
+            
+        (function clear() {
+            module('MACSkeptic.widgets.all.clear');
+            
+            test("It should be defined", function () {
+                ok(typeof(MACSkeptic.widgets.all.clear) === 'function', 'clear');
+            });
+            
+            test("It should clear the database", function () {
+                MACSkeptic.widgets.create({
+                    id: 'lumberWidget', 
+                    resource: { name: 'wood' }, 
+                    parentContainer: 'div#left_column', 
+                    baseUri: 'http://mywidgets.com/' 
+                });
+                MACSkeptic.widgets.create({
+                    id: 'hungerWidget', 
+                    resource: { name: 'food', Id: 'pizza' }, 
+                    parentContainer: 'div#right_column', 
+                    title: 'Pasta' 
+                });
+                MACSkeptic.widgets.create({
+                    id: 'thunderWidget', 
+                    parentContainer: 'div#middle_column', 
+                    fullUri: 'http://my.widget.is.here.org/' 
+                });
+                
+                MACSkeptic.widgets.all.clear();
+                
+                ok(!MACSkeptic.widgets.get('lumberWidget'), 'lumberWidget');
+                ok(!MACSkeptic.widgets.get('hungerWidget'), 'hungerWidget');
+                ok(!MACSkeptic.widgets.get('thunderWidget'), 'thunderWidget');
+            });
+        }());
     }());
 };
 

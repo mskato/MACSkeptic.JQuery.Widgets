@@ -61,6 +61,7 @@ var MACSkeptic = {
             ].join('\n')
         };
         
+        var theSort = [];
         var widgetDatabase = {};    
         var callbacks = callbackParameters || {};
 
@@ -95,6 +96,9 @@ var MACSkeptic = {
                 return createdWidgets;
             },
             all: {
+                clear: function () {
+                    widgetDatabase = {};
+                },
                 render: function () {
                     for (var name in widgetDatabase) {
                         if (widgetDatabase.hasOwnProperty(name)) {
@@ -119,7 +123,7 @@ var MACSkeptic = {
                 sortable: function (specs) {
                     var options = specs || {};
                     $(function makeWidgetsSortable() {
-                        $(options.container || "div.widget_container").sortable({
+                        theSort = $(options.container || "div.widget_container").sortable({
                             connectWith: options.alternative_container || options.container || 'div.widget_container',
                             cursor: 'move',
                             handle: 'span.widget_handle'
