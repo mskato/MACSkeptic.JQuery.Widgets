@@ -69,7 +69,7 @@ var MACSkeptic = {
                 for(var i = 0; i < data.widgets.length; i++)
                 {
                     var lowerizedData = MACSkeptic.helpers.lowerize(data.widgets[i]);
-                    createdWidgets.push(MACSkeptic.widgets.createAjaxWidget(lowerizedData));
+                    createdWidgets.push(MACSkeptic.widgets.create(lowerizedData));
                 }
                 return createdWidgets;
             },
@@ -108,7 +108,7 @@ var MACSkeptic = {
                     return this;
                 }
             },       
-            createAjaxWidget: function (widgetPrototype) {
+            create: function (widgetPrototype) {
                 (function validateParameters(widgetPrototypeToBeValidated) {
                     if (!widgetPrototypeToBeValidated || !widgetPrototypeToBeValidated.id)
                     {
@@ -198,7 +198,7 @@ var MACSkeptic = {
     })({
         widgetFinishedLoading: (function (widget, success) { 
             widget.markAsFinishedLoading();
-            widget.highlight(2000,  success ? { color : '#ffff99' } : { color : '#ff0000' } );
+            widget.highlight(1000,  success ? { color : '#ffff99' } : { color : '#ff0000' } );
         }),
         widgetStartedLoading: (function (widget) {
             widget.markAsLoading();

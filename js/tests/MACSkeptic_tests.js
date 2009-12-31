@@ -17,11 +17,11 @@ MACSkeptic.widgets.tests = (function () {
     test("It should be defined", function () {
         ok(MACSkeptic.widgets, 'MACSkeptic.widgets');
     });
-    test("It should define the functions: 'load', 'reload', 'get', and 'createAjaxWidget'", function() {
+    test("It should define the functions: 'load', 'reload', 'get', and 'create'", function() {
         ok(typeof(MACSkeptic.widgets.load) == 'function', 'load');
         ok(typeof(MACSkeptic.widgets.reload) == 'function', 'reload');
         ok(typeof(MACSkeptic.widgets.get) == 'function', 'get');
-        ok(typeof(MACSkeptic.widgets.createAjaxWidget) == 'function', 'createAjaxWidget');
+        ok(typeof(MACSkeptic.widgets.create) == 'function', 'create');
     });
     
     (function fromJson(){
