@@ -34,7 +34,7 @@ String.tests = function () {
         });
     }());    
     
-    (function lowerize() {
+    (function supplant() {
         module('String.supplant');
         
         test("It should be defined", function () {
