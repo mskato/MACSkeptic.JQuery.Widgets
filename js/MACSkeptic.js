@@ -59,11 +59,10 @@ var MACSkeptic = {
                 '<p><strong>Status Code:</strong>{status}</p>',
                 '<p><strong>Status Description:</strong>{description}</p>'
             ].join('\n')
-        };
-        
-        var theSort = [];
-        var widgetDatabase = {};    
-        var callbacks = callbackParameters || {};
+        },
+            theSort = [],
+            widgetDatabase = {},
+            callbacks = callbackParameters || {};
 
         function store(widgetToBeStored)
         {
@@ -87,8 +86,8 @@ var MACSkeptic = {
                 return this.load(id);
             },
             fromJson: function createAjaxWidgetBasedOnJason(data) {
-                var parsedData = typeof(data) === 'string' ? $.parseJSON(data) : data;
-                var createdWidgets = [];
+                var parsedData = typeof(data) === 'string' ? $.parseJSON(data) : data,
+                    createdWidgets = [];
                 for (var i = 0; i < parsedData.widgets.length; i++)
                 {
                     var lowerizedData = MACSkeptic.helpers.lowerize(parsedData.widgets[i]);

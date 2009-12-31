@@ -4,34 +4,51 @@ QUnit.reset = function () {
     MACSkeptic.widgets.all.clear();
 };
 
+MACSkeptic = MACSkeptic || {};
 MACSkeptic.tests = function () {
     module('MACSkeptic');
-    
-    test("It should be defined", function () {
-        ok(MACSkeptic, 'MACSkeptic');
-    });
-    
-    test("It should define the properties: 'widgets' and 'helpers'", function () {
-        ok(typeof(MACSkeptic.widgets) === 'object', 'widgets');
-        ok(typeof(MACSkeptic.helpers) === 'object', 'helpers');
-    });
 };
 
+MACSkeptic.widgets = MACSkeptic.widgets || {};
 MACSkeptic.widgets.tests = function () {
     module('MACSkeptic.widgets');
 
     test("It should be defined", function () {
-        ok(MACSkeptic.widgets, 'MACSkeptic.widgets');
+        ok(typeof(MACSkeptic.widgets) === 'object', 'widgets');
     });
-    
-    test("It should define the functions: 'load', 'reload', 'get', and 'create'", 
-        function () {
+
+    (function load() {
+        module('MACSkeptic.widgets.load');
+        
+        test("It should be defined", function () {
             ok(typeof(MACSkeptic.widgets.load) === 'function', 'load');
+        });
+    }());
+    
+    (function reload() {
+        module('MACSkeptic.widgets.reload');
+        
+        test("It should be defined", function () {
             ok(typeof(MACSkeptic.widgets.reload) === 'function', 'reload');
+        });
+    }());
+    
+    (function get() {
+        module('MACSkeptic.widgets.get');
+        
+        test("It should be defined", function () {
             ok(typeof(MACSkeptic.widgets.get) === 'function', 'get');
+        });
+    }());
+    
+    (function create() {
+        module('MACSkeptic.widgets.create');
+        
+        test("It should be defined", function () {
             ok(typeof(MACSkeptic.widgets.create) === 'function', 'create');
         });
-        
+    }());
+    
     (function toJson() {
         module('MACSkeptic.widgets.toJson');
         
@@ -192,13 +209,38 @@ MACSkeptic.widgets.tests = function () {
         test("It should be defined", function () {
             ok(MACSkeptic.widgets.all, 'all');
         });
-        test("It should define the functions: 'load', 'reload', 'render', and 'sortable'", 
-            function () {
+            
+        (function load() {
+            module('MACSkeptic.widgets.all.load');
+            
+            test("It should be defined", function () {
                 ok(typeof(MACSkeptic.widgets.all.load) === 'function', 'load');
+            });
+        }());
+        
+        (function reload() {
+            module('MACSkeptic.widgets.all.reload');
+            
+            test("It should be defined", function () {
                 ok(typeof(MACSkeptic.widgets.all.reload) === 'function', 'reload');
+            });
+        }());
+        
+        (function render() {
+            module('MACSkeptic.widgets.all.render');
+            
+            test("It should be defined", function () {
                 ok(typeof(MACSkeptic.widgets.all.render) === 'function', 'render');
+            });
+        }());
+        
+        (function sortable() {
+            module('MACSkeptic.widgets.all.sortable');
+            
+            test("It should be defined", function () {
                 ok(typeof(MACSkeptic.widgets.all.sortable) === 'function', 'sortable');
             });
+        }());
             
         (function clear() {
             module('MACSkeptic.widgets.all.clear');
@@ -270,35 +312,121 @@ MACSkeptic.widgets.tests = function () {
     }());
 };
 
+MACSkeptic.helpers = MACSkeptic.helpers || {};
 MACSkeptic.helpers.tests = function () {
-    module('MACSkeptic.helpers.lowerize');
+    module('MACSkeptic.helpers');
     
-    test("It should lowerize the properties of a hashlike object", function () {
-        var testData = { Id: 10, name: 'John' };
-        ok(MACSkeptic.helpers.lowerize(testData).id === 10, 'Id => id');
-        ok(MACSkeptic.helpers.lowerize(testData).name === 'John', 'name => name');
-    });
+    (function lowerize() {
+        module('MACSkeptic.helpers.lowerize');
+        
+        test("It should lowerize the properties of a hashlike object", function () {
+            var testData = { Id: 10, name: 'John' };
+            ok(MACSkeptic.helpers.lowerize(testData).id === 10, 'Id => id');
+            ok(MACSkeptic.helpers.lowerize(testData).name === 'John', 'name => name');
+        });
+        
+        test("It should lowerize the properties of nested hashlike objects", function () {
+            var testData = { 
+                Id: 10, 
+                name: 'John', 
+                Child: { 
+                    Name: 'Pete',
+                    aggregated: {
+                        Age: 10,
+                        Heigh: 10.666
+                    }
+                } 
+            };
+            ok(MACSkeptic.helpers.lowerize(testData).child,
+                'Child => child');
+            ok(MACSkeptic.helpers.lowerize(testData).child.name === 'Pete',
+                'Child.Name => child.name');
+            ok(MACSkeptic.helpers.lowerize(testData).child.aggregated,
+                'Child.aggregated => child.aggregated');
+            ok(MACSkeptic.helpers.lowerize(testData).child.aggregated.age = 10,
+                'Child.aggregated.Age => child.aggregated.age');
+        });
+    }());
+};
+
+MACSkeptic.widget = MACSkeptic.widget || {};
+MACSkeptic.widget.tests = function () {
+    module('MACSkeptic.widget');
     
-    test("It should lowerize the properties of nested hashlike objects", function () {
-        var testData = { 
-            Id: 10, 
-            name: 'John', 
-            Child: { 
-                Name: 'Pete',
-                aggregated: {
-                    Age: 10,
-                    Heigh: 10.666
-                }
-            } 
-        };
-        ok(MACSkeptic.helpers.lowerize(testData).child,
-            'Child => child');
-        ok(MACSkeptic.helpers.lowerize(testData).child.name === 'Pete',
-            'Child.Name => child.name');
-        ok(MACSkeptic.helpers.lowerize(testData).child.aggregated,
-            'Child.aggregated => child.aggregated');
-        ok(MACSkeptic.helpers.lowerize(testData).child.aggregated.age = 10,
-            'Child.aggregated.Age => child.aggregated.age');
-    });
-    
+    (function composeUri() {
+        module('MACSkeptic.widget.composeUri');
+        
+        test("It should return the fullUri if it is present", function () {
+            var thorWidget = MACSkeptic.widgets.create({
+                id: 'thorWidget', 
+                parentContainer: 'div#middle_column', 
+                fullUri: 'http://my.widget.is.here.org/',
+                resource: { name: 'some', id: 'other' }, 
+                baseUri: 'http://it.doesnt.matter.com/'
+            });
+            
+            ok(thorWidget.composeUri() === 'http://my.widget.is.here.org/');
+        });
+        
+        test('It should return the baseUri + resource(name/id)', function () {
+            var thorWidget = MACSkeptic.widgets.create({
+                id: 'thorWidget', 
+                parentContainer: 'div#middle_column', 
+                resource: { name: 'some', id: 'other' }, 
+                baseUri: 'http://it.doesnt.matter.com/'
+            });
+            
+            ok(thorWidget.composeUri() === 'http://it.doesnt.matter.com/some/other');
+        });
+        
+        test('It should return the baseUri + resource(name)', function () {
+            var thorWidget = MACSkeptic.widgets.create({
+                id: 'thorWidget', 
+                parentContainer: 'div#middle_column', 
+                resource: { name: 'some' }, 
+                baseUri: 'http://it.doesnt.matter.com/'
+            });
+            
+            ok(thorWidget.composeUri() === 'http://it.doesnt.matter.com/some');
+        });
+        
+        test('It should return the baseUri + id', function () {
+            var thorWidget = MACSkeptic.widgets.create({
+                id: 'thorWidget', 
+                parentContainer: 'div#middle_column', 
+                baseUri: 'http://it.doesnt.matter.com/'
+            });
+            
+            ok(thorWidget.composeUri() === 'http://it.doesnt.matter.com/thorWidget');
+        });
+        
+        test('It should return Widgets + id', function () {
+            var thorWidget = MACSkeptic.widgets.create({
+                id: 'thorWidget', 
+                parentContainer: 'div#middle_column'
+            });
+            
+            ok(thorWidget.composeUri() === 'Widgets/thorWidget');
+        });
+        
+        test('It should return Widgets + resource(name)', function () {
+            var thorWidget = MACSkeptic.widgets.create({
+                id: 'thorWidget', 
+                parentContainer: 'div#middle_column',
+                resource: { name: 'some' }
+            });
+            
+            ok(thorWidget.composeUri() === 'Widgets/some');
+        });
+        
+        test('It should return Widgets + resource(name/id)', function () {
+            var thorWidget = MACSkeptic.widgets.create({
+                id: 'thorWidget', 
+                parentContainer: 'div#middle_column',
+                resource: { name: 'some', id: 'other' }
+            });
+            
+            ok(thorWidget.composeUri() === 'Widgets/some/other');
+        });
+    }());
 };
