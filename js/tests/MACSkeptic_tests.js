@@ -144,9 +144,9 @@ MACSkeptic.widgets.tests = function () {
                 'title: "Pasta" ',
                 '},',
                 '{',
-                'Id: "thunderWidget", ',
-                'ParentContainer: "div#middle_column", ',
-                'fullUri: "http://my.widget.is.here.org/" ',
+                '"Id": "thunderWidget", ',
+                '"ParentContainer": "div#middle_column", ',
+                '"fullUri": "http://my.widget.is.here.org/" ',
                 '}]}'
             ].join('');
             
