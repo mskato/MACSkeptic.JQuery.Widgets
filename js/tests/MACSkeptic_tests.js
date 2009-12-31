@@ -4,6 +4,57 @@ QUnit.reset = function () {
     MACSkeptic.widgets.all.clear();
 };
 
+String.tests = function () {
+    module('String');
+    
+    (function lowerize() {
+        module('String.lowerize');
+        
+        test("It should be defined", function () {
+            ok(typeof(''.lowerize) === 'function', 'lowerize');
+        });
+        
+        test("It should return itself if empty", function () {
+            ok(''.lowerize() === '');
+        });
+        
+        test("It should return itself lower if one char long", function () {
+            ok('A'.lowerize() === 'a', 'A');
+            ok('Z'.lowerize() === 'z', 'Z');
+            ok('G'.lowerize() === 'g', 'G');
+            ok('a'.lowerize() === 'a', 'a');
+            ok('z'.lowerize() === 'z', 'z');
+            ok('i'.lowerize() === 'i', 'i');
+        });
+        
+        test("It should only lower the first char", function () {
+            ok('ABCDEFG'.lowerize() === 'aBCDEFG', 'ABCDEFG');
+            ok('AbCdEfG'.lowerize() === 'abCdEfG', 'AbCdEfG');
+            ok('Abcdefg'.lowerize() === 'abcdefg', 'Abcdefg');
+        });
+    }());    
+    
+    (function lowerize() {
+        module('String.supplant');
+        
+        test("It should be defined", function () {
+            ok(typeof(''.supplant) === 'function', 'supplant');
+        });
+        
+        test("It should replace the tokens with the arguments", function () {
+            ok('{a}a{b}b{c}c{a}'.supplant({a: 'x', b: 'y', c: 'z'}) === 'xaybzcx');
+        });
+        
+        test("It should leave missing keys alone", function () {
+            ok('{a}a{b}b{c}c'.supplant({a: 'x', b: 'y'}) === 'xayb{c}c');
+        });
+        
+        test("It should ignore extra keys", function () {
+            ok('{a}a{b}b{c}c'.supplant({a: 'x', b: 'y', gundam: 'zgmfx20a'}) === 'xayb{c}c');
+        });
+    }());    
+};
+
 MACSkeptic = MACSkeptic || {};
 MACSkeptic.tests = function () {
     module('MACSkeptic');

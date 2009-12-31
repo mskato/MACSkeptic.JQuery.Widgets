@@ -11,7 +11,8 @@ String.prototype.supplant = function (o) {
 }; 
 
 String.prototype.lowerize = function () {
-    return this.charAt(0).toLowerCase() + this.substring(1);
+    return !this ? this : (this.length <= 1 ? this.toLowerCase() : (
+        this.charAt(0).toLowerCase() + this.substring(1)));
 };
 
 var MACSkeptic = { 
