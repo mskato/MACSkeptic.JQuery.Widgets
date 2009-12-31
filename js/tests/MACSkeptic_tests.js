@@ -44,21 +44,49 @@ MACSkeptic.widgets.tests = (function () {
                         Id: 'hungerWidget', 
                         Resource: { name: 'food', Id: 'pizza' }, 
                         ParentContainer: 'div#right_column', 
-                        title: 'Widget' 
+                        title: 'Pasta' 
                     },
                     {
-                        Id: 'fullWidget', 
+                        Id: 'thunderWidget', 
                         ParentContainer: 'div#middle_column', 
                         fullUri: 'http://my.widget.is.here.org/' 
                     }
                 ]
             };
             
-            MACSkeptic.widgets.fromJson(testData);
+            var createdWidgets = MACSkeptic.widgets.fromJson(testData);
             
-            ok(MACSkeptic.widgets.get('lumberWidget'), 'lumberWidget');
-            ok(MACSkeptic.widgets.get('hungerWidget'), 'hungerWidget');
-            ok(MACSkeptic.widgets.get('fullWidget'), 'fullWidget');
+            ok(createdWidgets, 'return the created widgets');
+            ok(createdWidgets.length == 3, 'correct number of widgets');
+            
+            (function assertThatLumberWidgetWasCreatedAsExpected() {
+                ok(createdWidgets[0], 'lumberWidget');
+                ok(createdWidgets[0].id == 'lumberWidget', 'lumberWidget.id');
+                ok(createdWidgets[0].resource, 'lumberWidget.resource');
+                ok(createdWidgets[0].resource.name == 'wood', 'lumberWidget.resource.name');
+                ok(createdWidgets[0].parentContainer == 'div#left_column', 'lumberWidget.parentContainer');
+                ok(createdWidgets[0].baseUri == 'http://mywidgets.com/', 'lumberWidget.baseUri');
+            })();
+            (function assertThatHungerWidgetWasCreatedAsExpected() {
+                ok(createdWidgets[1], 'hungerWidget');
+                ok(createdWidgets[1].id == 'hungerWidget', 'hungerWidget.id');
+                ok(createdWidgets[1].resource, 'hungerWidget.resource');
+                ok(createdWidgets[1].resource.name == 'food', 'hungerWidget.resource.name');
+                ok(createdWidgets[1].resource.id == 'pizza', 'hungerWidget.resource.id');
+                ok(createdWidgets[1].parentContainer == 'div#right_column', 'hungerWidget.parentContainer');
+                ok(createdWidgets[1].title == 'Pasta', 'hungerWidget.title');
+            })();
+            (function assertThatFullWidgetWasCreatedAsExpected() {
+                ok(createdWidgets[2], 'thunderWidget');
+                ok(createdWidgets[2].id == 'thunderWidget', 'thunderWidget.id');
+                ok(createdWidgets[2].parentContainer == 'div#middle_column', 'thunderWidget.parentContainer');
+                ok(createdWidgets[2].fullUri == 'http://my.widget.is.here.org/', 'thunderWidget.fullUri');
+            })();
+            (function assertThatAllWidgetsWereAddedToTheMACSkepticObject() {
+                ok(MACSkeptic.widgets.get('lumberWidget'), 'get(lumberWidget)');
+                ok(MACSkeptic.widgets.get('hungerWidget'), 'get(hungerWidget)');
+                ok(MACSkeptic.widgets.get('thunderWidget'), 'get(thunderWidget)');
+            })();
         });
     })();
     
