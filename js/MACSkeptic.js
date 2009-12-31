@@ -18,7 +18,8 @@ var MACSkeptic = {
                 for (var name in o) {
                     if (o.hasOwnProperty(name)) {
                         var currentProperty = o[name];
-                        result[name.charAt(0).toLowerCase() + name.substring(1)] = (typeof(currentProperty) === 'object'?
+                        result[name.charAt(0).toLowerCase() + name.substring(1)] = (
+                            typeof(currentProperty) === 'object' ? 
                             MACSkeptic.helpers.lowerize(currentProperty) : currentProperty);
                     }
                 }
@@ -28,19 +29,21 @@ var MACSkeptic = {
     }()),
     widgets: (function (callbackParameters) {
         var defaultAjaxWidgetTemplate = [
-    '<div class="ajax_widget" id="{id}">',
-        '<fieldset>',
+            '<div class="ajax_widget" id="{id}">',
+            '<fieldset>',
             '<span class="legend widget_handle">{title}</span>',
             '<button class="ajax_widget_refresh" onclick="MACSkeptic.widgets.reload(\'{id}\')">Refresh</button>',
             '<span class="loading" />',
             '<div class="ajax_widget_content"></div>',
-        '</fieldset>',
-    '</div>'].join('\n');
+            '</fieldset>',
+            '</div>'
+        ].join('\n');
         
         var defaultAjaxWidgetErrorMessageTemplate = [
-    '<p>An error has occurred!</p>',
-    '<p><strong>Status Code:</strong>{status}</p>',
-    '<p><strong>Status Description:</strong>{description}</p>'].join('\n');
+            '<p>An error has occurred!</p>',
+            '<p><strong>Status Code:</strong>{status}</p>',
+            '<p><strong>Status Description:</strong>{description}</p>'
+        ].join('\n');
 
         var widgetDatabase = {};    
         var callbacks = callbackParameters || {};
@@ -56,19 +59,19 @@ var MACSkeptic = {
         }
 
         return {
-            get: function (id) {
+            get: function getTheWidgetIdentifiedByThis(id) {
                 return theWidgetIdentifiedByThis(id);
             },
-            load: function (id) {
+            load: function loadTheWidgetIdentifiedByThis(id) {
                 var selectedWidget = theWidgetIdentifiedByThis(id);
                 return selectedWidget && selectedWidget.loadContent();
             },
-            reload: function (id) {
+            reload: function reloadTheWidgetIdentifiedByThis(id) {
                 return this.load(id);
             },
-            fromJson: function(data) {
+            fromJson: function createAjaxWidgetBasedOnJason(data) {
                 var createdWidgets = [];
-                for(var i = 0; i < data.widgets.length; i++)
+                for (var i = 0; i < data.widgets.length; i++)
                 {
                     var lowerizedData = MACSkeptic.helpers.lowerize(data.widgets[i]);
                     createdWidgets.push(MACSkeptic.widgets.create(lowerizedData));
@@ -97,9 +100,9 @@ var MACSkeptic = {
                 reload: function () {
                     return this.load();
                 },
-                sortable: function(specs) {
+                sortable: function (specs) {
                     var options = specs || {};
-                    $(function() {
+                    $(function makeWidgetsSortable() {
                         $(options.container || "div.widget_container").sortable({
                             connectWith: options.alternative_container || options.container || 'div.widget_container',
                             cursor: 'move',
@@ -110,7 +113,7 @@ var MACSkeptic = {
                     return this;
                 }
             },       
-            create: function (widgetPrototype) {
+            create: function createWidgetBasedOnPresetProperties(widgetPrototype) {
                 (function validateParameters(widgetPrototypeToBeValidated) {
                     if (!widgetPrototypeToBeValidated || !widgetPrototypeToBeValidated.id)
                     {
@@ -121,7 +124,7 @@ var MACSkeptic = {
                     if (theWidgetIdentifiedByThis(widgetPrototypeToBeValidated.id))
                     {
                         var duplicatedIdError = 'each widget id must be unique! [{id}]'.
-                            supplant( { id : widgetPrototypeToBeValidated.id } );
+                            supplant({ id: widgetPrototypeToBeValidated.id });
                         this.alert(duplicatedIdError);
                         throw duplicatedIdError;
                     }
@@ -133,15 +136,19 @@ var MACSkeptic = {
                     widgetToSetup.baseUri = widgetToSetup.baseUri || "Widgets/"; 
                     widgetToSetup.fullUri = widgetToSetup.fullUri;
                     widgetToSetup.resource = widgetToSetup.resource || { name: widgetToSetup.id, id: undefined };
-                    widgetToSetup.contentSelector = widgetToSetup.contentSelector || "div#{id} fieldset div.ajax_widget_content".
-                        supplant( { id : widgetToSetup.id } );
-                    widgetToSetup.selectorForLoading = '#{id} fieldset span.loading'.supplant({ id : widgetToSetup.id });
+                    widgetToSetup.contentSelector = widgetToSetup.contentSelector || 
+                        "div#{id} fieldset div.ajax_widget_content".supplant({
+                        id: widgetToSetup.id 
+                    });
+                    widgetToSetup.selectorForLoading = '#{id} fieldset span.loading'.supplant({ 
+                        id: widgetToSetup.id 
+                    });
                 }(widgetPrototype));
                 
                 (function definePublicMethods(widgetObject) {
                     widgetObject.composeUri = function () {
                         return widgetObject.fullUri || widgetObject.baseUri + widgetObject.resource.name +
-                            (widgetObject.resource.id? ("/" + widgetObject.resource.id) : "");
+                            (widgetObject.resource.id ? ('/' + widgetObject.resource.id) : '');
                     };
                 
                     widgetObject.loadContent = function () {
@@ -172,9 +179,9 @@ var MACSkeptic = {
                     };
                 
                     widgetObject.renderContainer = function () {
-                        $(widgetObject.parentContainer).append( defaultAjaxWidgetTemplate.supplant( { 
-                            id : widgetObject.id, 
-                            title : widgetObject.title
+                        $(widgetObject.parentContainer).append(defaultAjaxWidgetTemplate.supplant({ 
+                            id: widgetObject.id, 
+                            title: widgetObject.title
                         }));
                     };
                     
@@ -201,7 +208,7 @@ var MACSkeptic = {
     }({
         widgetFinishedLoading: function (widget, success) { 
             widget.markAsFinishedLoading();
-            widget.highlight(1000,  success ? { color : '#ffff99' } : { color : '#ff0000' } );
+            widget.highlight(1000, success ? { color: '#ffff99' } : { color: '#ff0000' });
         },
         widgetStartedLoading: function (widget) {
             widget.markAsLoading();
