@@ -28,23 +28,26 @@ var MACSkeptic = {
         };
     }()),
     widgets: (function (callbackParameters) {
-        var defaultAjaxWidgetTemplate = [
-            '<div class="ajax_widget" id="{id}">',
-            '<fieldset>',
-            '<span class="legend widget_handle">{title}</span>',
-            '<button class="ajax_widget_refresh" onclick="MACSkeptic.widgets.reload(\'{id}\')">Refresh</button>',
-            '<span class="loading" />',
-            '<div class="ajax_widget_content"></div>',
-            '</fieldset>',
-            '</div>'
-        ].join('\n');
+        var templates = {
+            widget: [
+                '<div class="ajax_widget" id="{id}">',
+                '<fieldset>',
+                '<span class="legend widget_handle">{title}</span>',
+                '<button class="ajax_widget_refresh" onclick="MACSkeptic.widgets.reload(\'{id}\')">',
+                'Refresh',
+                '</button>',
+                '<span class="loading" />',
+                '<div class="ajax_widget_content"></div>',
+                '</fieldset>',
+                '</div>'
+            ].join('\n'),
+            error: [
+                '<p>An error has occurred!</p>',
+                '<p><strong>Status Code:</strong>{status}</p>',
+                '<p><strong>Status Description:</strong>{description}</p>'
+            ].join('\n')
+        };
         
-        var defaultAjaxWidgetErrorMessageTemplate = [
-            '<p>An error has occurred!</p>',
-            '<p><strong>Status Code:</strong>{status}</p>',
-            '<p><strong>Status Description:</strong>{description}</p>'
-        ].join('\n');
-
         var widgetDatabase = {};    
         var callbacks = callbackParameters || {};
 
@@ -163,7 +166,7 @@ var MACSkeptic = {
                                     var successfulRequest = textStatus !== 'error';
                                     if (!successfulRequest) {
                                         $(widgetObject.contentSelector).html(
-                                            defaultAjaxWidgetErrorMessageTemplate.supplant({
+                                            templates.error.supplant({
                                                 status: req.status,
                                                 description: req.statusText
                                             })
@@ -179,7 +182,7 @@ var MACSkeptic = {
                     };
                 
                     widgetObject.renderContainer = function () {
-                        $(widgetObject.parentContainer).append(defaultAjaxWidgetTemplate.supplant({ 
+                        $(widgetObject.parentContainer).append(templates.widget.supplant({ 
                             id: widgetObject.id, 
                             title: widgetObject.title
                         }));
