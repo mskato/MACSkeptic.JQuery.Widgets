@@ -84,6 +84,15 @@ var MACSkeptic = {
             reload: function (id) {
                 return this.load(id);
             },
+            fromJson: function(data) {
+                var createdWidgets = [];
+                for(var i = 0; i < data.widgets.length; i++)
+                {
+                    var lowerizedData = MACSkeptic.helpers.lowerize(data.widgets[i]);
+                    createdWidgets.push(MACSkeptic.widgets.createAjaxWidget(lowerizedData));
+                }
+                return createdWidgets;
+            },
             all: {
                 render: function () {
                     for (var name in widgetDatabase) {
