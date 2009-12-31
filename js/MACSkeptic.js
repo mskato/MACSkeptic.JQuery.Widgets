@@ -95,6 +95,10 @@ var MACSkeptic = {
                 }
                 return createdWidgets;
             },
+            toJson: function jsonRepresentationOfTheAjaxWidgetIdentifiedByThis(id) {
+                var selectedWidget = theWidgetIdentifiedByThis(id);
+                return selectedWidget && selectedWidget.toJson();
+            },
             all: {
                 clear: function () {
                     widgetDatabase = {};
@@ -219,6 +223,10 @@ var MACSkeptic = {
                         $(widgetObject.selectorForLoading).
                             addClass('invisible_loading').
                             removeClass('visible_loading');
+                    };
+                    
+                    widgetObject.toJson = function () {
+                        return $.toJSON(widgetObject);
                     };
                 }(widgetPrototype));
                 

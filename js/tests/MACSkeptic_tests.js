@@ -56,7 +56,7 @@ MACSkeptic.widgets.tests = function () {
                     title: 'Woodstock'
                 });
                 
-                var jsonifiedWidget = MACSkeptic.widgets.toJson('lumberWidget');
+                var jsonifiedWidget = eval('(' + MACSkeptic.widgets.toJson('lumberWidget') + ')');
                 ok(jsonifiedWidget, 'lumberWidget');
                 ok(jsonifiedWidget.id === 'lumberWidget', 'lumberWidget.id');
                 ok(jsonifiedWidget.resource, 'lumberWidget.resource');
