@@ -102,7 +102,16 @@ var MACSkeptic = {
             },
             all: {
                 clear: function () {
+                    for (var name in widgetDatabase) {
+                        if (widgetDatabase.hasOwnProperty(name)) {
+                            $(widgetDatabase[name].parentContainer).html('');
+                        }
+                    }
                     widgetDatabase = {};
+                    
+                    if (theSort && theSort.destroy) {
+                        theSort.destroy();
+                    }
                 },
                 render: function () {
                     for (var name in widgetDatabase) {
@@ -131,11 +140,26 @@ var MACSkeptic = {
                         theSort = $(options.container || "div.widget_container").sortable({
                             connectWith: options.alternative_container || options.container || 'div.widget_container',
                             cursor: 'move',
-                            handle: 'span.widget_handle'
+                            handle: 'span.widget_handle',
+                            receive: function (ev, ui) {
+                                MACSkeptic.widgets.get(ui.item.context.id).parentContainer = 
+                                    '#' + ui.item.context.parentNode.id;
+                            }
                         });
                         $('span.widget_handle').disableSelection();
                     });
                     return this;
+                },
+                toJson: function () {
+                    var jsonifiedWidgets = { widgets: [] };
+                    for (var i = 0; i < theSort.length; i++) {
+                        var container = theSort[i];
+                        for (var j = 0; j < container.children.length; j++) {
+                            var widgetHtml = container.children[j];
+                            jsonifiedWidgets.widgets.push(MACSkeptic.widgets.get(widgetHtml.id));
+                        }
+                    }
+                    return $.toJSON(jsonifiedWidgets);
                 }
             },       
             create: function createWidgetBasedOnPresetProperties(widgetPrototype) {
@@ -228,6 +252,17 @@ var MACSkeptic = {
                     
                     widgetObject.toJson = function () {
                         return $.toJSON(widgetObject);
+                    };
+                    
+                    widgetObject.simplify = function () {
+                        return {
+                            parentContainer: widgetObject.parentContainer,
+                            title: widgetObject.title,
+                            id: widgetObject.id,
+                            baseUri: widgetObject.baseUri,
+                            fullUri: widgetObject.fullUri,
+                            resource: widgetObject.resource
+                        };
                     };
                 }(widgetPrototype));
                 
