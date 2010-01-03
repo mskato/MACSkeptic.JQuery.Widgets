@@ -57,8 +57,9 @@ var MACSkeptic = {
             ].join('\n'),
             error: [
                 '<p>An error has occurred!</p>',
-                '<p><strong>Status Code:</strong>{status}</p>',
-                '<p><strong>Status Description:</strong>{description}</p>'
+                '<p><strong>Status Code:</strong> {status} </p>',
+                '<p><strong>Status Description:</strong> {description} </p>',
+                '<p><strong>Uri:</strong> {uri} </p>'
             ].join('\n')
         },
             theSort = [],
@@ -160,6 +161,15 @@ var MACSkeptic = {
                         }
                     }
                     return $.toJSON(jsonifiedWidgets);
+                },
+                setResourceId: function (id) {
+                     for (var name in widgetDatabase) {
+                        if (widgetDatabase.hasOwnProperty(name)) {
+                            var currentWidget = theWidgetIdentifiedByThis(name);
+                            currentWidget.resource.id = id;
+                        }
+                    }
+                    return this;
                 }
             },       
             create: function createWidgetBasedOnPresetProperties(widgetPrototype) {
@@ -205,16 +215,18 @@ var MACSkeptic = {
                             callbacks.widgetStartedLoading(widgetObject);
                         }
                         if (callbacks.widgetFinishedLoading) {
+                            var calledUri = widgetObject.composeUri();
                             $(widgetObject.contentSelector).load(
-                                widgetObject.composeUri(), 
+                                calledUri, 
                                 '', 
                                 function (responseText, textStatus, req) {
                                     var successfulRequest = textStatus !== 'error';
                                     if (!successfulRequest) {
                                         $(widgetObject.contentSelector).html(
                                             templates.error.supplant({
-                                                status: req.status,
-                                                description: req.statusText
+                                                status: '' + req.status,
+                                                description: req.statusText,
+                                                uri: calledUri
                                             })
                                         );
                                     }
@@ -232,6 +244,7 @@ var MACSkeptic = {
                             id: widgetObject.id, 
                             title: widgetObject.title
                         }));
+                        widgetObject.markAsFinishedLoading();
                     };
                     
                     widgetObject.highlight = function (time, specs) {
