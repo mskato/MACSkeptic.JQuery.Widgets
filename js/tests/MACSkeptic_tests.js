@@ -535,6 +535,40 @@ MACSkeptic.helpers.tests = function () {
 			ok(arrayOfArrays[1].length === 0,
 				"second array should have no elements and actually have " + arrayOfArrays[1].length);
 		});
+
+		test("It should explode a non array object to an array", function () {
+			var testObject = {
+				id: 'ZGMFX10A', 
+				name: 'Freeeeedom!',
+				anotherId: 'ZGMFX09A',
+				anotherName: 'Justice',
+				oneMoreId: 'ZGMFX666S',
+				oneMoreName: 'Legend'
+			};
+			var numberOfColumns = 2;
+			var arrayOfArrays = MACSkeptic.helpers.explode(testObject, numberOfColumns);
+			
+			ok(arrayOfArrays,
+				"result array shouldn't be null");
+			ok(arrayOfArrays.length === numberOfColumns,
+				"result array's size should be " + numberOfColumns + " and actually is " + arrayOfArrays.length);
+			ok(arrayOfArrays[0].length === 3,
+				"first array should have 3 elements and actually have " + arrayOfArrays[0].length);
+			ok(arrayOfArrays[1].length === 3,
+				"second array should have 3 elements and actually have " + arrayOfArrays[1].length);
+			ok(arrayOfArrays[0][0] === testObject.id,
+				"first value of first array should be " + testObject.id + " and actually is " + arrayOfArrays[0][0]);
+			ok(arrayOfArrays[0][1] === testObject.name,
+				"second value of first array should be " + testObject.name + " and actually is " + arrayOfArrays[0][1]);
+			ok(arrayOfArrays[0][2] === testObject.anotherId,
+				"third value of first array should be " + testObject.anotherId + " and actually is " + arrayOfArrays[0][2]);
+			ok(arrayOfArrays[1][0] === testObject.anotherName,
+				"first value of second array should be " + testObject.anotherName + " and actually is " + arrayOfArrays[1][0]);
+			ok(arrayOfArrays[1][1] === testObject.oneMoreId,
+				"second value of second array should be " + testObject.oneMoreId + " and actually is " + arrayOfArrays[1][1]);
+			ok(arrayOfArrays[1][2] === testObject.oneMoreName,
+				"third value of second array should be " + testObject.oneMoreName + " and actually is " + arrayOfArrays[1][2]);
+		});
 	}());
 };
 
@@ -595,7 +629,7 @@ MACSkeptic.widget.tests = function () {
                 parentContainer: 'div#middle_column'
             });
             
-            ok(thorWidget.composeUri() === 'Widgets/thorWidget');
+            ok(thorWidget.composeUri() === '/Widgets/thorWidget');
         });
         
         test('It should return Widgets + resource(name)', function () {
@@ -605,7 +639,7 @@ MACSkeptic.widget.tests = function () {
                 resource: { name: 'some' }
             });
             
-            ok(thorWidget.composeUri() === 'Widgets/some');
+            ok(thorWidget.composeUri() === '/Widgets/some');
         });
         
         test('It should return Widgets + resource(name/id)', function () {
@@ -615,7 +649,7 @@ MACSkeptic.widget.tests = function () {
                 resource: { name: 'some', id: 'other' }
             });
             
-            ok(thorWidget.composeUri() === 'Widgets/some/other');
+            ok(thorWidget.composeUri() === '/Widgets/some/other');
         });
     }());
 };
