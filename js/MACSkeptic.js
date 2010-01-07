@@ -56,14 +56,43 @@ var MACSkeptic = {
                 if (!obj || typeof(obj) !== 'object') {
                     return obj;
                 }
-                else {
-                    var result = {};
-                    forEach(obj, function (name, property) {
-                        result[name.lowerize()] = 
-                            MACSkeptic.helpers.lowerize(property);
-                    });
-                    return result;
+                var result = {};
+                forEach(obj, function (name, property) {
+                    result[name.lowerize()] = 
+                        MACSkeptic.helpers.lowerize(property);
+                });
+                return result;
+
+            },
+            explode: function (array, numberOfColumns) {
+                if (!array || !(array instanceof Array)) {
+                    return array;
                 }
+                var length = array.length;
+                var lists = [];
+                var stepDelta = [];
+                for (var h = 0; h < numberOfColumns; h++) {
+                    lists[h] = [];
+                    stepDelta[h] = 0;
+                }
+                if (length < numberOfColumns) {
+                    for (var i = 0; i < length; i++) {
+                        lists[i].push(array[i]);
+                    }
+                    return lists;
+                }
+                var step = parseInt(length / numberOfColumns, 0);
+                var mod = length % numberOfColumns;
+                for (var j = 0; j < mod; j++) {
+                    stepDelta[j]++;
+                }
+                var startPoint = 0;
+                for (var k = 0; k < numberOfColumns; k++) {
+                    var currStep = step + stepDelta[k];
+                    lists[k] = $(array).slice(startPoint, startPoint + currStep);
+                    startPoint += currStep; 
+                }
+                return lists;
             }
         };
     }()),
@@ -116,8 +145,7 @@ var MACSkeptic = {
             fromJson: function createAjaxWidgetBasedOnJason(data) {
                 var parsedData = typeof(data) === 'string' ? $.parseJSON(data) : data,
                     createdWidgets = [];
-                for (var i = 0; i < parsedData.widgets.length; i++)
-                {
+                for (var i = 0; i < parsedData.widgets.length; i++) {
                     var lowerizedData = MACSkeptic.helpers.lowerize(parsedData.widgets[i]);
                     createdWidgets.push(MACSkeptic.widgets.create(lowerizedData));
                 }
@@ -197,7 +225,7 @@ var MACSkeptic = {
                     }
                     return this;
                 }
-            },       
+            },
             create: function createWidgetBasedOnPresetProperties(widgetPrototype) {
                 (function validateParameters(widgetPrototypeToBeValidated) {
                     if (!widgetPrototypeToBeValidated || !widgetPrototypeToBeValidated.id)
@@ -223,7 +251,7 @@ var MACSkeptic = {
                     widgetToSetup.resource = widgetToSetup.resource || { name: widgetToSetup.id, id: undefined };
                     widgetToSetup.contentSelector = widgetToSetup.contentSelector || 
                         "div#{id} fieldset div.ajax_widget_content".supplant({
-                        id: widgetToSetup.id 
+                        id: widgetToSetup.id
                     });
                     widgetToSetup.selectorForLoading = '#{id} fieldset span.loading'.supplant({ 
                         id: widgetToSetup.id 
@@ -318,4 +346,3 @@ var MACSkeptic = {
         }
     }))
 };
-

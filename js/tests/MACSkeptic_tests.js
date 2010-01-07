@@ -481,6 +481,61 @@ MACSkeptic.helpers.tests = function () {
                 'Child.aggregated.Age => child.aggregated.age');
         });
     }());
+	
+	(function explode() {
+		module('MACSkeptic.helpers.explode');
+		
+		test("It should explode an array with less items than the number of columns", function () {
+			var testArray = [1,2,3];
+			var numberOfColumns = 4;
+			var arrayOfArrays = MACSkeptic.helpers.explode(testArray, numberOfColumns);
+			
+			ok(arrayOfArrays, 
+				"result array shoudln't be null");
+			ok(arrayOfArrays.length === numberOfColumns,
+				"result array's size should be " + numberOfColumns + " and actually is " + arrayOfArrays.length);
+			ok(arrayOfArrays[0].length === 1,
+				"first array should have only 1 element and actually have " + arrayOfArrays[0].length);
+			ok(arrayOfArrays[1].length === 1,
+				"second array should have only 1 element and actually have " + arrayOfArrays[1].length);
+			ok(arrayOfArrays[2].length === 1,
+				"third array should have only 1 element and actually have " + arrayOfArrays[2].length);
+			ok(arrayOfArrays[3].length === 0,
+				"fourth array should have no elements and actually have " + arrayOfArrays[3].length);
+		});
+		
+		test("It should explode an array with more items than the number of columns", function () {
+			var testArray = ['a','b','c','d','e','f','g','h','i','j'];
+			var numberOfColumns = 3;
+			var arrayOfArrays = MACSkeptic.helpers.explode(testArray, numberOfColumns);
+			
+			ok(arrayOfArrays, 
+				"result array shoudln't be null");
+			ok(arrayOfArrays.length === numberOfColumns,
+				"result array's size should be " + numberOfColumns + " and actually is " + arrayOfArrays.length);
+			ok(arrayOfArrays[0].length === 4,
+				"first array should have 4 elements and actually have " + arrayOfArrays[0].length);
+			ok(arrayOfArrays[1].length === 3,
+				"second array should have 3 elements and actually have " + arrayOfArrays[1].length);
+			ok(arrayOfArrays[2].length === 3,
+				"third array should have 3 elements and actually have " + arrayOfArrays[2].length);
+		});
+		
+		test("It should 'explode' an array with no elements", function () {
+			var testArray = [];
+			var numberOfColumns = 2;
+			var arrayOfArrays = MACSkeptic.helpers.explode(testArray, numberOfColumns);
+			
+			ok(arrayOfArrays,
+				"result array shouldn't be null");
+			ok(arrayOfArrays.length === numberOfColumns,
+				"result array's size should be " + numberOfColumns + " and actually is " + arrayOfArrays.length);
+			ok(arrayOfArrays[0].length === 0,
+				"first array should have no elements and actually have " + arrayOfArrays[0].length);
+			ok(arrayOfArrays[1].length === 0,
+				"second array should have no elements and actually have " + arrayOfArrays[1].length);
+		});
+	}());
 };
 
 MACSkeptic.widget = MACSkeptic.widget || {};
