@@ -157,11 +157,43 @@ MACSkeptic.widgets.tests = function () {
             ok(jsonifiedWidget.title === 'Woodstock', 'thunderWidget.title');
         });
     }());
+	
+    (function remove() {
+        module('MACSkeptic.widgets.remove');
+        
+        test("It should be defined", function () {
+            ok(typeof(MACSkeptic.widgets.remove) === 'function', 'remove');
+        });
+		
+		test("It should remove a widget", function () {
+			MACSkeptic.widgets.create({
+				id: 'lumberWidget', 
+				resource: { name: 'wood' }, 
+				parentContainer: 'div#left_column', 
+				baseUri: 'http://mywidgets.com/' 
+			});
+			MACSkeptic.widgets.create({
+				id: 'hungerWidget', 
+				resource: { name: 'food', Id: 'pizza' }, 
+				parentContainer: 'div#right_column', 
+				title: 'Pasta' 
+			});
+			
+			MACSkeptic.widgets.all.render();
+			
+			MACSkeptic.widgets.remove('hungerWidget');
+			
+			ok(!($('#hungerWidget').length),
+				"hungerWidget shouldn't exist!");
+			ok(($('#lumberWidget').length),
+				"lumberWidget should still exist!");
+		});
+    }());
     
     (function fromJson() {
         module('MACSkeptic.widgets.fromJson');
         
-        test("It should be defined", function () {        
+        test("It should be defined", function () {
             ok(typeof(MACSkeptic.widgets.fromJson) === 'function', 'fromJson');
         });
         

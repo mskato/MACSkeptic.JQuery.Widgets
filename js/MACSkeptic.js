@@ -111,10 +111,10 @@ var MACSkeptic = {
                 '<div class="ajax_widget" id="{id}">',
                 '<fieldset>',
                 '<span class="legend widget_handle">{title}</span>',
-                '<button class="ajax_widget_refresh" onclick="MACSkeptic.widgets.reload(\'{id}\')">',
-                'Refresh',
-                '</button>',
-                '<span class="loading" />',
+                '<span class="control_box" >',
+                '<img src="Content/images/close.png" onclick="MACSkeptic.widgets.remove(\'{id}\')" title="Close" /> ',
+                '<img src="Content/images/refresh.png" onclick="MACSkeptic.widgets.reload(\'{id}\')" title="Refresh" /> ',
+                '</span>',
                 '<div class="ajax_widget_content"></div>',
                 '</fieldset>',
                 '</div>'
@@ -130,13 +130,15 @@ var MACSkeptic = {
             widgetDatabase = {},
             callbacks = callbackParameters || {};
 
-        function store(widgetToBeStored)
-        {
+        function store(widgetToBeStored) {
             return widgetToBeStored && (widgetDatabase[widgetToBeStored.id] = widgetToBeStored);
         }
         
-        function theWidgetIdentifiedByThis(id)
-        {
+        function remove(widgetToBeRemoved) {
+            return widgetToBeRemoved && (delete widgetDatabase[widgetToBeRemoved.id]);
+        }
+        
+        function theWidgetIdentifiedByThis(id) {
             return widgetDatabase[id];
         }
 
@@ -163,6 +165,14 @@ var MACSkeptic = {
             toJson: function jsonRepresentationOfTheAjaxWidgetIdentifiedByThis(id) {
                 var selectedWidget = theWidgetIdentifiedByThis(id);
                 return selectedWidget && selectedWidget.toJson();
+            },
+            remove: function (id) {
+                var widget = theWidgetIdentifiedByThis(id);
+                widget && $(widget.selector).remove();
+                
+                remove(widget);
+               
+                widget.callbacks.onRemove && widget.callbacks.onRemove(widget);
             },
             all: {
                 clear: function () {
@@ -265,6 +275,8 @@ var MACSkeptic = {
                     widgetToSetup.selectorForLoading = '#{id} fieldset span.loading'.supplant({ 
                         id: widgetToSetup.id 
                     });
+                    widgetToSetup.selector = '#' + widgetToSetup.id;
+                    widgetToSetup.callbacks = widgetToSetup.callbacks || {};
                 }(widgetPrototype));
                 
                 (function definePublicMethods(widgetObject) {
@@ -308,6 +320,7 @@ var MACSkeptic = {
                             title: widgetObject.title
                         }));
                         widgetObject.markAsFinishedLoading();
+                        widgetObject.callbacks.onRender && widgetObject.callbacks.onRender(widgetObject);
                     };
                     
                     widgetObject.highlight = function (time, specs) {
