@@ -168,16 +168,23 @@ span.control_box
 
 .ui-sortable-placeholder
 { 
-	border: 1px dotted black; 
+	border: 1px dotted black !important; 
+    background-color: #EAFDFF !important; 
 	visibility: visible !important; 
-	height: 50px !important; 
+	height: 100px !important; 
+    background-color: #abcddf;
+	-moz-border-radius: 0px !important; 
+	-webkit-border-top-left-radius: 0px !important; 
+	-webkit-border-top-right-radius: 0px !important; 
+	-webkit-border-bottom-left-radius: 0px !important; 
+	-webkit-border-bottom-right-radius: 0px !important; 
 }
-
+/*
 .ui-sortable-placeholder * 
 { 
 	visibility: hidden; 
 }
-
+*/
 button.just_to_show_some_awesomeness
 {
 	width: 100%;

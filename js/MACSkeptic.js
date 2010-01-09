@@ -112,8 +112,8 @@ var MACSkeptic = {
                 '<fieldset>',
                 '<span class="legend widget_handle">{title}</span>',
                 '<span class="control_box" >',
-                '<img src="images/close.png" onclick="MACSkeptic.widgets.remove(\'{id}\')" title="Close" /> ',
-                '<img src="images/refresh.png" onclick="MACSkeptic.widgets.reload(\'{id}\')" title="Refresh" /> ',
+                '<img src="{images}close.png" onclick="MACSkeptic.widgets.remove(\'{id}\')" title="Close" /> ',
+                '<img src="{images}refresh.png" onclick="MACSkeptic.widgets.reload(\'{id}\')" title="Refresh" /> ',
                 '</span>',
                 '<div class="ajax_widget_content"></div>',
                 '</fieldset>',
@@ -214,6 +214,7 @@ var MACSkeptic = {
                         theSort = $(options.container || "div.widget_container").sortable({
                             connectWith: options.alternative_container || options.container || 'div.widget_container',
                             cursor: 'move',
+                            helper: 'original',
                             tolerance: 'pointer',
                             handle: 'span.widget_handle',
                             receive: function (ev, ui) {
@@ -318,7 +319,8 @@ var MACSkeptic = {
                     widgetObject.renderContainer = function () {
                         $(widgetObject.parentContainer).append(templates.widget.supplant({ 
                             id: widgetObject.id, 
-                            title: widgetObject.title
+                            title: widgetObject.title,
+                            images: widgetObject.imagesPath || "images/"
                         }));
                         widgetObject.markAsFinishedLoading();
                         widgetObject.callbacks.onRender && widgetObject.callbacks.onRender(widgetObject);
