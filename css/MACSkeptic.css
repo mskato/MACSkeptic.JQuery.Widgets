@@ -44,6 +44,7 @@ div.widget_container
 	display: inline-block;
 	min-height: 800px;
 	background-color: #ffffff;
+    vertical-align: top;
 }
 
 div#left_column

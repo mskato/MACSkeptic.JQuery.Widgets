@@ -54,6 +54,14 @@
             baseUri: 'widgets/'
         });
         
+        MACSkeptic.widgets.create( { 
+            parentContainer: 'div#left_column', 
+            id: 'bigWidget', 
+            title: 'Big' ,
+            resource: { name: 'bigWidget.html' },
+            baseUri: 'widgets/'
+        });
+        
         MACSkeptic.widgets.all.render().load().sortable();
     </script>
 </body>  
