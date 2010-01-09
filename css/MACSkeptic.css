@@ -37,14 +37,18 @@ div.widget_container
 {
 	border: dashed 1px #000000;
 	width: 350px;
-	height: 100%;
 	margin: 5px 0px 5px 5px;
 	padding: 2px 2px 2px 2px;
 	text-align: left;
 	display: inline-block;
-	min-height: 800px;
 	background-color: #ffffff;
     vertical-align: top;
+    min-heith: 20px;
+}
+
+div#top_row, div#bottom_row
+{
+    width: 1080px;
 }
 
 div#left_column

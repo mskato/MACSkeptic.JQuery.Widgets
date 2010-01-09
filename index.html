@@ -16,11 +16,15 @@
         Click here to reload EVERYTHING, this would be EXACTLY like a broadcast event ;)
     </button>
     <div id="widget_global_container">
+        <div id="top_row" class="widget_container">
+        </div>
         <div id="left_column" class="widget_container">
         </div>
         <div id="middle_column" class="widget_container">
         </div>
         <div id="right_column" class="widget_container">
+        </div>
+        <div id="bottom_row" class="widget_container">
         </div>
     </div>
     <script type="text/javascript">
@@ -47,7 +51,7 @@
         });
         
         MACSkeptic.widgets.create( { 
-            parentContainer: 'div#middle_column', 
+            parentContainer: 'div#top_row', 
             id: 'idedWidget', 
             title: 'Identified' ,
             resource: { name: 'example', id: '1.html' },
@@ -55,7 +59,7 @@
         });
         
         MACSkeptic.widgets.create( { 
-            parentContainer: 'div#left_column', 
+            parentContainer: 'div#bottom_row', 
             id: 'bigWidget', 
             title: 'Big' ,
             resource: { name: 'bigWidget.html' },
