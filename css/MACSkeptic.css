@@ -85,6 +85,7 @@ div.ajax_widget
 	-webkit-border-top-right-radius: 8px;
 	border-radius: 8px 8px 0 0;
 	display: block;
+    background-color: #ffffff;
 }
 
 div.ajax_widget fieldset

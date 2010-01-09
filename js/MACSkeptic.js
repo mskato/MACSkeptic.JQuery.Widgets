@@ -113,7 +113,7 @@ var MACSkeptic = {
                 '<span class="legend widget_handle">{title}</span>',
                 '<span class="control_box" >',
                 '<img src="{images}close.png" ondblclick="MACSkeptic.widgets.remove(\'{id}\')" ',
-                'onclick="$(this).effect(\'pulsate\')" title="Close" /> ',
+                'onclick="$(this).effect(\'pulsate\', {}, 100)" title="Close" /> ',
                 '<img src="{images}refresh.png" onclick="MACSkeptic.widgets.reload(\'{id}\')" title="Refresh" /> ',
                 '</span>',
                 '<div class="ajax_widget_content"></div>',
@@ -218,6 +218,7 @@ var MACSkeptic = {
                             helper: 'original',
                             tolerance: 'pointer',
                             handle: 'span.widget_handle',
+                            opacity: 0.6,
                             receive: function (ev, ui) {
                                 MACSkeptic.widgets.get(ui.item.context.id).parentContainer = 
                                     '#' + ui.item.context.parentNode.id;
