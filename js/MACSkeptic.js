@@ -214,6 +214,7 @@ var MACSkeptic = {
                         theSort = $(options.container || "div.widget_container").sortable({
                             connectWith: options.alternative_container || options.container || 'div.widget_container',
                             cursor: 'move',
+                            tolerance: 'pointer',
                             handle: 'span.widget_handle',
                             receive: function (ev, ui) {
                                 MACSkeptic.widgets.get(ui.item.context.id).parentContainer = 

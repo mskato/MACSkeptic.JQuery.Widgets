@@ -42,14 +42,16 @@
             parentContainer: 'div#middle_column', 
             id: 'tabsWidget', 
             title: 'Tabs' ,
-            resource: { name: 'tabsWidget.html' }
+            resource: { name: 'tabsWidget.html' },
+            baseUri: 'widgets/'
         });
         
         MACSkeptic.widgets.create( { 
             parentContainer: 'div#middle_column', 
             id: 'idedWidget', 
             title: 'Identified' ,
-            resource: { name: 'example', id: '1.html' }
+            resource: { name: 'example', id: '1.html' },
+            baseUri: 'widgets/'
         });
         
         MACSkeptic.widgets.all.render().load().sortable();
